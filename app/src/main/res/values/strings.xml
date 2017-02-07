@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Ahelp</string>
+
+    <string name="user_name">ชื่อ-นามสกุล :</string>
+    <string name="number">เบอร์โทร :</string>
+    <string name="Login">เข้าสู่ระบบ</string>
+
+    <string name="message">โปรดกรอกเบอร์โทรศัพท์ เพื่อส่งข้อความ และเลือกเบอร์โทรออกอัตโนมัติ</string>
+
+    <string name="edit">แก้ไข</string>
+    <string name="callAuto">โทรออก</string>
+    <string name="ok_set">ยืนยัน</string>
+
+    <string name="help">กดปุ่มเมื่อมีเหตุฉุกเฉิน</string>
+    <string name="callhelp">โทรฉุกเฉิน</string>
+    <string name="setting">ตั้งค่า</string>
+    <string name="content">ถัดไป</string>
+    <string name="title_activity_notification_maps">Map</string>
+</resources>

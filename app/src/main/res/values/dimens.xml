@@ -1,0 +1,13 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+
+    <dimen name="h1">15sp</dimen>//name
+    <dimen name="h2">20sp</dimen>//เข้าระบบ ยืนยัน
+    <dimen name="h3">13sp</dimen>
+    //หัวข้อ
+    <dimen name="h4">10sp</dimen>//เพิ่ม ลบ
+
+</resources>
