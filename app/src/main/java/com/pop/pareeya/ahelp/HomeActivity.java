@@ -28,18 +28,22 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 
 public class HomeActivity extends AppCompatActivity {
 
     //Explicit
-    private Button button,callGreenButton;
+    private Button button, callGreenButton;
     private ImageView img;
     private String truePasswordString, userPasswordString,
             idUserString, nameString, idCallString;
     private boolean statusABoolean = true;
     private LocationManager locationManager;
     private Criteria criteria;
-    private double lagADouble = 13.859882, lngADouble=100.481604;
+    private double lagADouble = 13.859882, lngADouble = 100.481604;
     private String phoneHelpCall; //phone ของคนที่ให้ ความช่วยเหลือ
     private boolean statusCallGreen = true;
 
@@ -134,7 +138,7 @@ public class HomeActivity extends AppCompatActivity {
         Location location = null;
         if (locationManager.isProviderEnabled(strProvider)) {
 
-            locationManager.requestLocationUpdates(strProvider,1000,10,locationListener);//การค้นหาพิกัดทุกๆ1วินาที,ถ้ามีการเปลี่ยนพิกัด10เมตร ให้ทำการค้นหา
+            locationManager.requestLocationUpdates(strProvider, 1000, 10, locationListener);//การค้นหาพิกัดทุกๆ1วินาที,ถ้ามีการเปลี่ยนพิกัด10เมตร ให้ทำการค้นหา
             //การค้นหาพิกัดทุกๆ1วินาที,ถ้ามีการเปลี่ยนพิกัด10เมตร ให้ทำการค้นหา
 
         }
@@ -144,7 +148,7 @@ public class HomeActivity extends AppCompatActivity {
 
     //location อัตโนมัติ
 
-    public LocationListener locationListener= new LocationListener() {
+    public LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
 
@@ -181,7 +185,6 @@ public class HomeActivity extends AppCompatActivity {
             truePasswordString = cursor.getString(cursor.getColumnIndex(MyManage.column_Password));
             Log.d("8decV3", "truePass ==> " + truePasswordString);
             cursor.close();
-
 
 
             FindIDuser findIDuser = new FindIDuser(HomeActivity.this,
@@ -222,7 +225,7 @@ public class HomeActivity extends AppCompatActivity {
 
             if (!strAHlep.equals("")) {
 
-                if (Integer.parseInt(strAHlep)!=0) {
+                if (Integer.parseInt(strAHlep) != 0) {
                     myNotification();
                 }//if2
             }//if1
@@ -245,7 +248,6 @@ public class HomeActivity extends AppCompatActivity {
         }, 1000);
 
 
-
     }   // myLoop
 
     //การ alert ไปหา friend
@@ -257,12 +259,12 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(HomeActivity.this, NotificationMaps.class);
         intent.putExtra("idUser", idUserString);
         PendingIntent pendingIntent = PendingIntent.getActivity(HomeActivity.this,
-                (int) System.currentTimeMillis(), intent,0);
+                (int) System.currentTimeMillis(), intent, 0);
         Uri uri = RingtoneManager.getDefaultUri(Notification.DEFAULT_SOUND);
         Notification.Builder builder = new Notification.Builder(HomeActivity.this);
         builder.setTicker("Ahelp");
         builder.setContentTitle("ข้อความจาก");
-        builder.setContentText("เกิดเหตุฉุกเฉินกับ"+"กรุณามาช่วยเหลือที่ตำแหน่ง");
+        builder.setContentText("เกิดเหตุฉุกเฉินกับ" + "กรุณามาช่วยเหลือที่ตำแหน่ง");
         builder.setSmallIcon(R.drawable.alert);
         builder.setSound(uri);
         builder.setContentIntent(pendingIntent);
@@ -283,7 +285,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-              confirmPassword(0);
+                confirmPassword(0);
 
             }
         });
@@ -315,6 +317,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
     }   // findPhone
+
     //หน่วงเวลาโทรออก
     private void delayTime() {
         Handler handler = new Handler();
@@ -324,7 +327,7 @@ public class HomeActivity extends AppCompatActivity {
                 callPhoneToFriend();
 
             }
-        },10000);
+        }, 10000);
     }
 
     private void callPhoneToFriend() {
@@ -432,8 +435,6 @@ public class HomeActivity extends AppCompatActivity {
         }   // try
 
 
-
-
     }   // callFriend
 
     private void findIDcall() {
@@ -444,18 +445,22 @@ public class HomeActivity extends AppCompatActivity {
             Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM phoneTABLE", null);
             cursor.moveToFirst();
 
-            for (int i=0;i<cursor.getCount();i++) {
+            for (int i = 0; i < cursor.getCount(); i++) {
 
                 String strAHeip = idUserString; // หมายถึง id ของ user ที่กดเรียกเพื่อน
+
                 // หมายถึง id ของเพื่อนที่ บันทึกไว้ใน phoneTABLE
                 String idUser = cursor.getString(cursor.getColumnIndex(MyManage.column_idCall));
 
                 //ในแต่ละรอบจะส่ง id ของคนกดเรียกเพื่อน และ เพื่อนไป editAhelp
 
+                Log.d("12janV1", "id ของเพื่อนที่ถูกเรียก ==> " + idUser);
                 Log.d("12janV1", "my Location Lat ==> " + lagADouble);
                 Log.d("12janV1", "my Location Lng ==> " + lngADouble);
 
-                editAhelp(idUser,strAHeip);
+                editAhelp(idUser, strAHeip);
+
+                addHistoryToServer(idUser);
 
                 cursor.moveToNext();
             }//for
@@ -465,6 +470,35 @@ public class HomeActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.d("8decV2", "e find idCall ==> " + e.toString());
+        }
+    }
+
+    private void addHistoryToServer(String receiveID) {
+
+        String tag = "3MarchV1";
+        Calendar calendar = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDateTime = dateFormat.format(calendar.getTime());
+
+
+        try {
+
+
+
+            Log.d(tag, "Call_ID ==> " + idUserString);
+            Log.d(tag, "Receive_ID ==> " + receiveID);
+            Log.d(tag, "Lat ==> " + Double.toString(lagADouble));
+            Log.d(tag, "Lng ==> " + Double.toString(lngADouble));
+            Log.d(tag, "Call_DateTime ==> " + currentDateTime);
+
+            AddHistory addHistory = new AddHistory(HomeActivity.this, idUserString, receiveID,
+                    Double.toString(lagADouble), Double.toString(lngADouble), currentDateTime);
+            addHistory.execute();
+
+            Log.d(tag, "Result ==> " + addHistory.get());
+
+        } catch (Exception e) {
+            Log.d(tag, "e addHistory ==> " + e.toString());
         }
     }
 
@@ -496,7 +530,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 confirmPassword(1);
 
-                }//onClick
+            }//onClick
 
 
         });
