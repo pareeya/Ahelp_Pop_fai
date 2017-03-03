@@ -11,20 +11,6 @@
     tools:context="com.pop.pareeya.ahelp.HomeActivity"
     android:background="@drawable/bghome">
 
-    <Button
-        android:id="@+id/button15"
-        android:layout_gravity="right"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/butset"
-        android:onClick="clickHomeGoSetting"
-        android:textColor="#ffffff"
-        android:textStyle="bold"
-        android:layout_height="wrap_content"
-        android:layout_width="60dp"
-        android:layout_marginRight="5dp" />
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
@@ -77,5 +63,28 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button15"
+        android:layout_gravity="right"
+        android:background="@drawable/bset"
+        android:onClick="clickHomeGoSetting"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_alignParentTop="true" />
+
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2"
+        android:background="@drawable/baddhistory"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
