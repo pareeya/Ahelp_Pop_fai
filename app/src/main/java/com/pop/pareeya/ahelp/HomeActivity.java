@@ -1,4 +1,4 @@
-package com.example.pareeya.ahelp;
+package com.pop.pareeya.ahelp;
 
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -54,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 statusCallGreen = false;
-                findPhoneNumberFriend();
+                findPhoneNumberFriend();//โทรหาเบอร์เพื่อนโดยการกดปุ่ม
             }
         });
 
@@ -127,7 +127,7 @@ public class HomeActivity extends AppCompatActivity {
         if (locationManager.isProviderEnabled(strProvider)) {
 
             locationManager.requestLocationUpdates(strProvider,1000,10,locationListener);//การค้นหาพิกัดทุกๆ1วินาที,ถ้ามีการเปลี่ยนพิกัด10เมตร ให้ทำการค้นหา
-
+            //การค้นหาพิกัดทุกๆ1วินาที,ถ้ามีการเปลี่ยนพิกัด10เมตร ให้ทำการค้นหา
 
         }
 
@@ -196,6 +196,7 @@ public class HomeActivity extends AppCompatActivity {
         }   // try
     }
 
+    //เช็คค่าในMySQL Ahelp ถ้าเป็น0 หรือค่าว่าง จะหยุดทำการแจ้งเตือน
     private void myLoop() {
 
         //My To do
@@ -239,6 +240,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }   // myLoop
 
+    //การ alert ไปหา friend
     private void myNotification() {
 
         statusABoolean = false;
@@ -266,20 +268,21 @@ public class HomeActivity extends AppCompatActivity {
 
     }//noti
 
-    // คลิก ปุ่มมีภัย เพื่อเรียกเพื่อน
+    // คลิก ปุ่มมีภัย เพื่อเรียกเพื่อน onClick เพื่อส่งข้อความเรียกเพื่อน
     private void imgController() {
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                confirmPassword();
+              confirmPassword();
 
-            }   // onClick
+            }
         });
 
     }
 
+    //หลังจากส่งข้อความจะทำการหน่วงเวลา 10วินาที ไปยังเบอร์ที่เราตั้งค้าไว้ โดยดูจาก FROM phoneTABLE WHERE Action = 1
     private void findPhoneNumberFriend() {
 
         try {
@@ -331,6 +334,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }//callPhoneToFriend
 
+    //การยืนยันรหัสผ่านก่อนจะทำการส่งข้อความขอความช่วยเหลือไปหา friend
     private void confirmPassword() {
 
         //Get Password from SQLite
@@ -439,6 +443,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    //ระบบทำการยืนยันการส่งข้อมูล
     private void editAhelp(String idUser, String strAHelp) {
 
         try {

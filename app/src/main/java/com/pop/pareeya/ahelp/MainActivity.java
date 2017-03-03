@@ -1,4 +1,4 @@
-package com.example.pareeya.ahelp;
+package com.pop.pareeya.ahelp;
 
 import android.app.AlertDialog;
 import android.content.Context;

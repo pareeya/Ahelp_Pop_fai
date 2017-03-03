@@ -1,4 +1,4 @@
-package com.example.pareeya.ahelp;
+package com.pop.pareeya.ahelp;
 
 import org.junit.Test;
 
