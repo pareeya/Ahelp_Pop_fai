@@ -49,34 +49,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        callGreenButton = (Button) findViewById(R.id.button13);
-        callGreenButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                statusCallGreen = false;
-                findPhoneNumberFriend();//โทรหาเบอร์เพื่อนโดยการกดปุ่ม
-            }
-        });
-
-
-        //setting ขออนุญาติใช้ server
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setAltitudeRequired(false);
-        criteria.setBearingRequired(false);
-
-        // image animation
-        // Load the ImageView that will host the animation and
-        // set its background to our AnimationDrawable XML resource.
-        img = (ImageView) findViewById(R.id.imageView3);
-        img.setBackgroundResource(R.drawable.butalarm);
-
-        // Get the background, which has been compiled to an AnimationDrawable object.
-        AnimationDrawable frameAnimation = (AnimationDrawable) img.getBackground();
-
-        // Start the animation (looped playback by default).
-        frameAnimation.start();
+        callGreenController();
+        setupForLocation();
+        createEffectAnimation();
 
         //Call 1669
         call1669();
@@ -90,8 +65,41 @@ public class HomeActivity extends AppCompatActivity {
         //My Loop
         myLoop();
 
-
     }   // Main Method
+
+    private void createEffectAnimation() {
+        // image animation
+        // Load the ImageView that will host the animation and
+        // set its background to our AnimationDrawable XML resource.
+        img = (ImageView) findViewById(R.id.imageView3);
+        img.setBackgroundResource(R.drawable.butalarm);
+
+        // Get the background, which has been compiled to an AnimationDrawable object.
+        AnimationDrawable frameAnimation = (AnimationDrawable) img.getBackground();
+
+        // Start the animation (looped playback by default).
+        frameAnimation.start();
+    }
+
+    private void setupForLocation() {
+        //setting ขออนุญาติ เปิด Service Get Location
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+    }
+
+    private void callGreenController() {
+        callGreenButton = (Button) findViewById(R.id.button13);
+        callGreenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                statusCallGreen = false;
+                findPhoneNumberFriend();//โทรหาเบอร์เพื่อนโดยการกดปุ่ม
+            }
+        });
+    }
 
     @Override
     protected void onResume() {
@@ -275,7 +283,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-              confirmPassword();
+              confirmPassword(0);
 
             }
         });
@@ -335,7 +343,7 @@ public class HomeActivity extends AppCompatActivity {
     }//callPhoneToFriend
 
     //การยืนยันรหัสผ่านก่อนจะทำการส่งข้อความขอความช่วยเหลือไปหา friend
-    private void confirmPassword() {
+    private void confirmPassword(final int intdex) {
 
         //Get Password from SQLite
         SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.database_name,
@@ -362,9 +370,21 @@ public class HomeActivity extends AppCompatActivity {
                 userPasswordString = editText.getText().toString().trim();
                 if (userPasswordString.equals(truePasswordString)) {
                     //Password True
-                    callFriend();
-                    findPhoneNumberFriend();
-                    dialogInterface.dismiss();
+                    switch (intdex) {
+                        case 0:
+                            myAHelp();
+                            dialogInterface.dismiss();
+                            break;
+                        case 1:
+
+                            Intent CallIntent = new Intent(Intent.ACTION_CALL);
+                            CallIntent.setData(Uri.parse("tel:=1669"));
+                            startActivity(CallIntent);
+
+                            dialogInterface.dismiss();
+                            break;
+                    }
+
                 } else {
                     passwordFalse();
                     dialogInterface.dismiss();
@@ -374,6 +394,11 @@ public class HomeActivity extends AppCompatActivity {
         builder.show();
 
     }   // confirm
+
+    private void myAHelp() {
+        callFriend();
+        findPhoneNumberFriend();
+    }
 
     private void passwordFalse() {
         MyAlert myAlert = new MyAlert();
@@ -469,9 +494,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent CallIntent = new Intent(Intent.ACTION_CALL);
-                CallIntent.setData(Uri.parse("tel:=1669"));
-                startActivity(CallIntent);
+                confirmPassword(1);
 
                 }//onClick
 
