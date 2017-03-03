@@ -36,8 +36,8 @@ import java.util.Calendar;
 public class HomeActivity extends AppCompatActivity {
 
     //Explicit
-    private Button button, callGreenButton;
-    private ImageView img;
+    private Button button, callGreenButton, showListHistoryImageView;
+    private ImageView img ;
     private String truePasswordString, userPasswordString,
             idUserString, nameString, idCallString;
     private boolean statusABoolean = true;
@@ -66,10 +66,26 @@ public class HomeActivity extends AppCompatActivity {
         //Find Id user
         findIDuser();
 
+        showListHistoryController();
+
         //My Loop
         myLoop();
 
     }   // Main Method
+
+    private void showListHistoryController() {
+
+        showListHistoryImageView = (Button) findViewById(R.id.btnShowListHistory);
+        showListHistoryImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this, ShowListHistory.class);
+                intent.putExtra("Login", idUserString);
+                startActivity(intent);
+
+            }
+        });
+    }
 
     private void createEffectAnimation() {
         // image animation
