@@ -53,7 +53,7 @@ public class NotificationMaps extends FragmentActivity implements OnMapReadyCall
             Log.d("22decV2", "JSON ==> " + strJSON);
 
             JSONArray jsonArray = new JSONArray(strJSON);
-            for (int i=0;i<jsonArray.length();i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 if (idUserString.equals(jsonObject.getString("id"))) {
@@ -61,21 +61,19 @@ public class NotificationMaps extends FragmentActivity implements OnMapReadyCall
                     latADouble = Double.parseDouble(jsonObject.getString("Lat"));
                     lngADouble = Double.parseDouble(jsonObject.getString("Lng"));
                 }
-
             }   //for
 
             Log.d("22decV2", "aHepe หรือ id ของคนที่เรียกเรา ? ==> " + aHelp);
             Log.d("22decV2", "lat ==> " + latADouble);
             Log.d("22decV2", "lng ==> " + lngADouble);
 
-            for (int i=0;i<jsonArray.length();i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 if (aHelp.equals(jsonObject.getString("id"))) {
                     nameString = jsonObject.getString("Name");
                     phoneString = jsonObject.getString("Phone");
                 }
-
             }   // for
 
             nameTextView.setText(nameString);
@@ -88,11 +86,8 @@ public class NotificationMaps extends FragmentActivity implements OnMapReadyCall
                     Intent intent = new Intent(Intent.ACTION_CALL);
                     intent.setData(Uri.parse("tel:=" + phoneString));
                     startActivity(intent);
-
-
                 }   // onClick
             });
-
 
             //Edit Ahelp
             editAhelp();
@@ -101,21 +96,15 @@ public class NotificationMaps extends FragmentActivity implements OnMapReadyCall
             Log.d("22decV2", "e ==> " + e.toString());
         }
 
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
-
 
     }   // Main Method
 
     private void editAhelp() {
         try {
-            EditAhelp editAhelp = new EditAhelp(NotificationMaps.this,
-                    idUserString, "0", "0", "0");
+            EditAhelp editAhelp = new EditAhelp(NotificationMaps.this, idUserString, "0", "0", "0");
             editAhelp.execute("http://swiftcodingthai.com/fai/edit_Ahelp_where_id_only_aHelp.php");
             Log.d("22decV2", "Result  ==>" + editAhelp.get());
 

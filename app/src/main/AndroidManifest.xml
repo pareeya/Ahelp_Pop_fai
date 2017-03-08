@@ -41,7 +41,7 @@
         <activity
             android:name=".NotificationMaps"
             android:label="@string/title_activity_notification_maps" />
-        <activity android:name=".ShowListHistory"></activity>
+        <activity android:name=".ShowListHistory" />
     </application>
 
 </manifest>

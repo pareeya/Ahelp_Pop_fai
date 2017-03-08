@@ -79,10 +79,21 @@ public class HomeActivity extends AppCompatActivity {
         showListHistoryImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, ShowListHistory.class);
-                intent.putExtra("Login", idUserString);
-                startActivity(intent);
-
+                try {
+                    CheckInternet checkInternet = new CheckInternet(HomeActivity.this);
+                    checkInternet.execute();
+                    if (Boolean.parseBoolean(checkInternet.get())) {
+                        findIDuser();
+                        Intent intent = new Intent(HomeActivity.this, ShowListHistory.class);
+                        intent.putExtra("Login", idUserString);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(HomeActivity.this, "กรุณาตรวจสอบ Internet",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -192,7 +203,6 @@ public class HomeActivity extends AppCompatActivity {
     private void findIDuser() {
         //Find idUser
         try {
-
             SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.database_name,
                     MODE_PRIVATE, null);
             Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM userTABLE", null);
@@ -201,7 +211,6 @@ public class HomeActivity extends AppCompatActivity {
             truePasswordString = cursor.getString(cursor.getColumnIndex(MyManage.column_Password));
             Log.d("8decV3", "truePass ==> " + truePasswordString);
             cursor.close();
-
 
             FindIDuser findIDuser = new FindIDuser(HomeActivity.this,
                     nameString, truePasswordString);
@@ -553,12 +562,9 @@ public class HomeActivity extends AppCompatActivity {
     }//call1669
 
     public void clickHomeGoSetting(View view) {
-
         try {
-
             CheckInternet checkInternet = new CheckInternet(HomeActivity.this);
             checkInternet.execute();
-
             if (Boolean.parseBoolean(checkInternet.get())) {
                 startActivity(new Intent(HomeActivity.this, SettingActivity.class));
             } else {
