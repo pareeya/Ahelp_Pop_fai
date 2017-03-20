@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Ahelp_Pop_fai.iml" filepath="$PROJECT_DIR$/Ahelp_Pop_fai.iml" />
       <module fileurl="file://$PROJECT_DIR$/Ahelp_faipop-master.iml" filepath="$PROJECT_DIR$/Ahelp_faipop-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
